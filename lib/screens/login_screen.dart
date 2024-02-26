@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(width: 5),
                         GestureDetector(
                           onTap: () => context.go('/register'),
-                          child: const Text("Register Here", style: TextStyle(color: Color.fromARGB(255, 14, 23, 197)))
+                          child: const Text("Register Here", style: TextStyle(color: Color.fromARGB(255, 153, 3, 3)))
                         ),
                       ] 
                     ),
