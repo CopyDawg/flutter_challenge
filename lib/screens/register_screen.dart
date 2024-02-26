@@ -18,17 +18,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _password2TextController = TextEditingController();
 
-  Future<void> handleRegister(String username, String password) async {
-
-    int statusCode = await registerController(username, password);
-
-    if (statusCode == 200) {
-      context.go('/login');
-    } else {
-      print('Error en el registro');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,13 +97,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        onPressed: () => {
+                        onPressed: () async {
                           
                           if(_password2TextController.text == _passwordTextController.text){
-                            handleRegister(
-                              _usernameTextController.text,
-                              _passwordTextController.text,
-                            )
+                            int statusCode = await registerController(_usernameTextController.text, _passwordTextController.text);
+                            
+                            if (statusCode == 200) {
+                              context.go('/login');
+                            } 
+                            else {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Error'),
+                                    content: const Text("Couldn't register, try again."),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+
                           }
                           else {
                             showDialog(
@@ -133,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ],
                                 );
                               },
-                            )
+                            );
                           }
 
                           //context.go('/login')

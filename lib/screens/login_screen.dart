@@ -18,18 +18,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
 
-
-  Future<void> handleLogin(String username, String password) async {
-
-    int statusCode = await loginController(username, password);
-
-    if (statusCode == 200) {
-      context.go('/');
-    } else {
-      print('Error en el inicio de sesión.');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return   Scaffold(
@@ -94,11 +82,33 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        onPressed: () => {
-                          handleLogin(
-                            _usernameTextController.text,
-                            _passwordTextController.text,
-                          )
+                        onPressed: () async {
+
+                          int statusCode = await loginController(_usernameTextController.text, _passwordTextController.text);
+
+                          if (statusCode == 200) {
+                            context.go('/');
+                          } 
+                          else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Error'),
+                                  content: const Text("Couldn't login, try again."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+
                         },
                         child: const Text('LOGIN'),
                       ),
