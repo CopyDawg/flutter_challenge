@@ -1,0 +1,27 @@
+import 'package:dio/dio.dart';
+
+Future<int> registerController(String username, String password) async {
+  
+  var dio = Dio(BaseOptions(
+    baseUrl: 'http://192.168.100.7:4444',
+    headers: {'Content-Type': 'application/json'}
+  ));
+
+  try {
+
+    var response = await dio.post(
+      '/register',
+      data: {'username': username, 'password': password},
+    );
+
+    print(response);
+    print(response.statusCode);
+    return response.statusCode!;
+
+  } catch (e) {
+
+    print('Error en la solicitud: $e');
+    return -1;
+
+  }
+}
