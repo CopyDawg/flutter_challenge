@@ -52,12 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Icon(Icons.sports_soccer),
                     ),
                   ),
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    return null;
-                  },
                 ),
       
                 const SizedBox(height: 20),
