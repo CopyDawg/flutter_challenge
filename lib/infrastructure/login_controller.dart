@@ -2,7 +2,10 @@ import 'package:dio/dio.dart';
 
 Future<int> loginController(String username, String password) async {
   
-  var dio = Dio(BaseOptions(baseUrl: 'http://192.168.100.7:4444'));
+  var dio = Dio(BaseOptions(
+    baseUrl: 'http://192.168.100.7:4444',
+    headers: {'Content-Type': 'application/json'}
+  ));
 
   try {
 
