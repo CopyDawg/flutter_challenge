@@ -16,6 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final TextEditingController _usernameTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+  final TextEditingController _password2TextController = TextEditingController();
 
   Future<void> handleRegister(String username, String password) async {
 
@@ -83,6 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 20),
 
                     TextFormField(
+                      controller: _password2TextController,
                       decoration:  const InputDecoration(
                         hintText: 'Confirm Password',
                         prefixIcon: Padding(
@@ -126,10 +128,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         onPressed: () => {
                           
-                          handleRegister(
-                            _usernameTextController.text,
-                            _passwordTextController.text,
-                          )
+                          if(_password2TextController.text == _passwordTextController.text){
+                            handleRegister(
+                              _usernameTextController.text,
+                              _passwordTextController.text,
+                            )
+                          }
+                          else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Error'),
+                                  content: const Text("Passwords don't match."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            )
+                          }
 
                           //context.go('/login')
 
